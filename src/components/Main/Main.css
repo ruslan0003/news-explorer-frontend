@@ -1,0 +1,52 @@
+.main {
+  max-width: 1440px;
+  margin: auto;
+}
+
+.author {
+  max-width: 1440px;
+  padding: 80px 104px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.author__about {
+  max-width: 600px;
+  margin-left: 56px;
+  align-self: flex-start;
+  margin-top: 51px;
+}
+
+.author__photo {
+  min-width: 464px;
+  min-height: 464px;
+  background-image: url('../../images/author.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 250px;
+}
+
+.author__title {
+  font-family: 'Roboto Slab';
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 46px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #1A1B22;
+}
+
+.author__text {
+  font-family: 'Roboto Regular';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #1A1B22;
+}
+
