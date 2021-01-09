@@ -1,0 +1,53 @@
+.results {
+  max-width: 1440px;
+  padding: 80px 104px;
+  background-color: #F5F6F7;
+}
+
+.results__title {
+  font-family: 'Roboto Slab';
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 46px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.results__cards {
+  max-width: 1232px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 400px);
+  justify-content: center;
+  grid-gap: 16px;
+  margin: 0;
+  padding: 64px 0;
+}
+
+.results__button-more-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.results__button-more {
+  min-width: 288px;
+  min-height: 64px;
+  margin: 0;
+  border-radius: 80px;
+  background-color: white;
+  font-family: 'Roboto Regular';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #1A1B22;
+  outline: none;
+  align-self: center;
+  cursor: pointer;
+}

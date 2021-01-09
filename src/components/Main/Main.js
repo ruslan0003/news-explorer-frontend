@@ -1,8 +1,10 @@
 import React from 'react';
+import NewsCardList from '../NewsCardList/NewsCardList';
 
 function Main() {
   return (
     <div className="main">
+      <NewsCardList />
       <div className="author">
         <div className="author__photo"></div>
         <div className="author__about">
