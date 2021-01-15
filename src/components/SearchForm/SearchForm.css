@@ -4,7 +4,7 @@
   background-image: url('../../images/search-background-image.jpg');
   z-index: 1;
   position: relative;
-  margin-top: -81px;
+  margin-top: -83px;
   background-size: cover;
   background-position: center;
   display: flex;
@@ -24,6 +24,8 @@
   line-height: 64px;
   font-style: normal;
   font-weight: 400;
+  margin: 0;
+  padding: 0;
 }
 
 .search__subtitle {
@@ -34,6 +36,8 @@
   line-height: 24px;
   font-style: normal;
   font-weight: 400;
+  margin: 32px 0 0 0;
+  padding: 0;
 }
 
 .search__form {
@@ -101,4 +105,60 @@
 
 .search__button:active {
   background: #2A65CC;
+}
+
+@media screen and (max-width: 768px) {
+
+  .search {
+    min-height: 400px;
+    justify-content: flex-start;
+  }
+
+  .search__container {
+    max-width: 448px;
+    margin-top: 100px;
+  }
+
+  .search__title {
+    font-size: 36px;
+    line-height: 40px;
+    max-width: 385px;
+  }
+
+  .search__subtitle {
+    margin: 16px 0 0 0;
+  }
+
+  .search__form {
+    margin-top: 48px;
+  }
+
+  .search__button {
+    min-width: 160px;
+    min-height: 56px;
+    margin: 0 0 0 -159px;
+  }
+
+}
+
+@media screen and (max-width: 320px) {
+
+  .search__container {
+    padding: 0 16px 32px 16px;
+  }
+
+  .search__form {
+    flex-direction: column;
+  }
+
+  .search__field {
+    min-width: 288px;
+    min-height: 56px;
+  }
+
+  .search__button {
+    min-width: 288px;
+    min-height: 56px;
+    margin: 16px 0 0 0;
+  }
 }

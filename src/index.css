@@ -17,3 +17,5 @@
 @import url('./components/SearchForm/SearchForm.css');
 @import url('./components/LoginPopup/LoginPopup.css');
 @import url('./components/RegisterPopup/RegisterPopup.css');
+@import url('./components/PopupWithText/PopupWithText.css');
+@import url('./components//SavedNewsCard/SavedNewsCard.css');

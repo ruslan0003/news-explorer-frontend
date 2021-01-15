@@ -1,5 +1,5 @@
 .main {
-  max-width: 1440px;
+  width: 100%;
   margin: auto;
 }
 
@@ -37,6 +37,8 @@
   letter-spacing: 0px;
   text-align: left;
   color: #1A1B22;
+  margin: 0;
+  padding: 0;
 }
 
 .author__text {
@@ -48,5 +50,56 @@
   letter-spacing: 0px;
   text-align: left;
   color: #1A1B22;
+}
+
+@media screen and (max-width: 1024px) {
+  .author__photo {
+    min-width: 232px;
+    min-height: 232px;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .author {
+    max-width: 768px;
+    padding: 40px 40px 60px 40px;
+  }
+
+  .author__about {
+    max-width: 424px;
+    margin-left: 32px;
+    margin-top: 0;
+  }
+
+  .author__title {
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+}
+
+@media screen and (max-width: 620px) {
+  .author {
+    max-width: 288px;
+    flex-direction: column;
+  }
+
+  .author__about {
+    max-width: 288px;
+    margin: 16px 0 0 0;
+  }
+
+  .author__title {
+    font-size: 30px;
+    line-height: 40px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .author {
+    justify-content: flex-start;
+    padding: 32px 16px 80px 16px;
+  }
 }
 

@@ -12,7 +12,6 @@ function PopupWithForm(props) {
         <h3 className='popup__title'>{props.title}</h3>
         <form className={`popup__form ${props.name}__form`} name={props.name} noValidate onSubmit={props.onSubmit}>
           {props.children}
-          <button className='popup__submit-button' type="submit" disabled>{props.button}</button>
         </form>
         <div className='popup__link-text'>или <button className='popup__link' onClick={props.name === 'login-popup' ? props.onRegisterClick : props.onLoginClick}>{props.link}</button></div>
       </div>
@@ -24,7 +23,6 @@ PopupWithForm.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   name: PropTypes.string,
-  button: PropTypes.string,
   title: PropTypes.string,
   children: PropTypes.node,
   onSubmit: PropTypes.func,

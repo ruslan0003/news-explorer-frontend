@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NewsCardList from '../NewsCardList/NewsCardList';
 
-function Main() {
+function Main(props) {
   return (
     <div className="main">
-      <NewsCardList />
+      <NewsCardList isLoggedIn={props.isLoggedIn} cards={props.cards} isFound={props.isFound}
+      isSearchClicked={props.isSearchClicked} />
       <div className="author">
         <div className="author__photo"></div>
         <div className="author__about">
@@ -23,5 +25,12 @@ function Main() {
     </div>
   );
 }
+
+Main.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  cards: PropTypes.array,
+  isFound: PropTypes.bool,
+  isSearchClicked: PropTypes.bool,
+};
 
 export default Main;

@@ -1,5 +1,5 @@
 import React from 'react';
-import NewsCard from '../NewsCard/NewsCard';
+import SavedNewsCard from '../SavedNewsCard/SavedNewsCard';
 
 function SavedNews() {
   return (
@@ -24,11 +24,10 @@ function SavedNews() {
       </div>
       <div className="saved-news">
         <div className="saved-news__cards">
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
+          <SavedNewsCard />
+          <SavedNewsCard />
+          <SavedNewsCard />
+          <SavedNewsCard />
         </div>
         <div className="saved-news__button-more-container">
           <button className="saved-news__button-more">Показать ещё</button>
