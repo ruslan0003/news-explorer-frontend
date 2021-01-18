@@ -20,7 +20,7 @@ function Header(props) {
           <NavLink exact to="/" className="header__link" activeClassName="header__link_active">Главная</NavLink>
           <NavLink to="/saved-news" className="header__link" activeClassName="header__link_active">Сохранённые статьи</NavLink>
           <button className="header__button-logout" onClick={props.onLogoutClick}>
-            <p className="header__username">Грета</p>
+            <span className="header__username">Грета</span>
             <img className="header__logout-icon" alt="Иконка выхода" src={logoutIconWhite}></img></button>
         </div>
       </div>

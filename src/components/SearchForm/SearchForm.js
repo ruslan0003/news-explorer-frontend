@@ -26,7 +26,7 @@ function SearchForm(props) {
           Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.
         </h4>
         <div className="search__form">
-          <input className="search__field" type="search" placeholder="Введите тему новости" onChange={handleChangeRequest}></input>
+          <input className="search__field" type="search" placeholder="Введите тему новости" onChange={handleChangeRequest} required></input>
           <button className="search__button" onClick={handleSearchClick}>Искать</button></div>
       </div>
 

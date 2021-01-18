@@ -13,8 +13,8 @@ function Footer() {
           <a href="https://praktikum.yandex.ru/" target="_blank" rel="noreferrer" className="footer__link">Яндекс.Практикум</a>
         </div>
         <div className="footer__icons">
-          <a href="https://github.com/ruslan0003" target="_blank" rel="noreferrer"><img className="footer__icon" src={githubIcon}></img></a>
-          <a href="https://www.instagram.com/rlukichev/" target="_blank" rel="noreferrer"><img className="footer__icon" src={instaIcon}></img></a>
+          <a href="https://github.com/ruslan0003" target="_blank" rel="noreferrer"><img className="footer__icon" src={githubIcon} alt="Иконка Github"></img></a>
+          <a href="https://www.instagram.com/rlukichev/" target="_blank" rel="noreferrer" alt="Иконка Instagram"><img className="footer__icon" src={instaIcon}></img></a>
         </div>
       </div>
     </div>

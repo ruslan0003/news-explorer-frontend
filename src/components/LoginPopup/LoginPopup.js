@@ -57,10 +57,10 @@ function LoginPopup(props) {
     <PopupWithForm name="login-popup" title="Вход" onClose={props.onClose} isOpen={props.isOpen} onSubmit={handleSubmit} link="Зарегистрироваться" onRegisterClick={props.onRegisterClick}>
       <label className="popup__label" htmlFor="login-email">Email</label>
       <input className="popup__input" id="login-email" name="login-email" type="email" value={email || ''} placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleChangeEmail} required />
-      <span className={formValidation ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="name-input-error">{emailError}</span>
+      <span className={formValidation ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="name-login-error">{emailError}</span>
       <label className="popup__label" htmlFor="login-password">Пароль</label>
       <input className="popup__input" id="login-password" name="login-password" type="password" value={password || ''} placeholder="Введите пароль" onChange={handleChangePassword} required />
-      <span className={formValidation ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="name-input-error">{passwordError}</span>
+      <span className={formValidation ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="password-login-error">{passwordError}</span>
       <button className='popup__submit-button' type="submit" disabled={isDisabled}>Войти</button>
     </PopupWithForm>
   );
