@@ -1,0 +1,15 @@
+.popup__link_login {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.popup__container_info {
+  min-height: 182px;
+  justify-content: space-around;
+}
+
+.popup__title_info {
+  max-width: 315px;
+}

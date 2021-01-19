@@ -1,0 +1,230 @@
+.header {
+  width: 100%;
+  min-height: 80px;
+  border-bottom: 1px solid rgba(196,196,196,.3);
+  background: transparent;
+  z-index: 2;
+  position: relative;
+  padding: 0;
+  margin: auto;
+}
+
+.header__container {
+  display: flex;
+  max-width: 1440px;
+  min-height: 80px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  padding: 0 104px;
+  box-sizing: border-box;
+}
+
+.header__menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__logo {
+  font-family: 'Roboto Slab';
+  color: white;
+  font-size: 20px;
+  line-height: 24px;
+  font-style: normal;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.header__link {
+  font-family: 'Roboto Regular';
+  color: #B6BCBF;
+  font-size: 18px;
+  line-height: 24px;
+  font-style: normal;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+  padding: 30px 0 26px 0;
+  margin-left: 25px;
+}
+
+.header__link:hover {
+  opacity: .6;
+}
+
+.header__link_active {
+  padding: 30px 0 23px 0;
+  border-bottom: 3px white solid;
+  color: white;
+}
+
+.header__button {
+  min-width: 152px;
+  min-height: 21px;
+  padding: 12px 12px 14px 12px;
+  font-family: 'Roboto Regular';
+  color: white;
+  font-size: 18px;
+  line-height: 24px;
+  font-style: normal;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+  background-color: transparent;
+  box-sizing: border-box;
+  margin: 15px 0 12px 32px;
+  border: 1px white solid;
+  border-radius: 100px;
+  outline: none;
+}
+
+.header__menu-open {
+  min-width: 24px;
+  min-height: 24px;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  display: none;
+}
+
+.header__menu-open-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.header__logo-menu-line {
+  display: flex;
+}
+
+.header__button:hover {
+  opacity: .6;
+}
+
+.header__button-logout {
+  min-width: 152px;
+  height: 48px;
+  padding: 12px 12px 14px 12px;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+  background-color: transparent;
+  box-sizing: border-box;
+  margin: 15px 0 12px 32px;
+  border: 1px #D1D2D6 solid;
+  border-radius: 100px;
+  outline: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.header__username {
+  color: white;
+  font-family: 'Roboto Regular';
+  font-size: 18px;
+  line-height: 24px;
+  font-style: normal;
+  font-weight: 500;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__logout-icon {
+  width: 20px;
+  color: white;
+}
+
+@media screen and (max-width: 1024px) {
+  .header__container {
+    padding: 0 40px;
+  }
+  
+}
+
+
+@media screen and (max-width: 620px) {
+  .header__link {
+    margin: 0 0 22px 0;
+    padding: 0;
+  }
+
+  .header__link_active {
+    border: none;
+    padding: 0;
+  }
+
+  .header__button {
+    margin: 0;
+    min-width: 288px;
+    max-width: 288px;
+    min-height: 56px;
+  }
+
+  .header__button-logout {
+    margin: 0;
+    min-width: 288px;
+    min-height: 56px;
+    justify-content: center;
+  }
+
+  .header__logout-icon {
+    margin-left: 10px;
+  }
+
+  .header__menu {
+    flex-direction: column;
+    background-color: #1A1B22;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 16px;
+  }
+
+  .header__menu_hidden {
+    display: none;
+  }
+
+  .header__menu-open {
+    display: flex;
+  }
+
+  .header__container {
+    flex-direction: column;
+  }
+
+  .header__container_dark {
+    background-color: #1A1B22;
+  }
+
+  .header__logo {
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  .header__container {
+    padding: 0 0 24px 0;
+  }
+
+  .header {
+    border-bottom: none;
+  }
+
+  .header__logo-menu-line {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    width: 100%;
+    border-bottom: 1px solid rgba(196,196,196,.3);
+    box-sizing: border-box;
+  }
+
+
+
+}

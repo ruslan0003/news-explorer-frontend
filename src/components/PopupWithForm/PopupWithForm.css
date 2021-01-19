@@ -1,0 +1,238 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.4s, opacity 0.4s linear;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,.5);
+  z-index: 10;
+}
+
+.popup_opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup__title {
+  font-family: 'Roboto Black';
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 28px;
+  letter-spacing: 0px;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+.popup__close-button {
+  min-width: 30px;
+  padding: 0px;
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  position: absolute;
+  width: 41px;
+  height: 41px;
+  top: -45px;
+  right: -50px;
+}
+
+.popup__submit-button {
+  min-width: 358px;
+  min-height: 64px;
+  border-radius: 100px;
+  font-family: 'Roboto Regular';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: #2F71E5;
+  color: white;
+  margin: 0;
+  outline: none;
+  margin-top: 39px;
+}
+
+.popup__submit-button_register {
+  margin-top: 0;
+}
+
+.popup__submit-button:disabled {
+  background: #E6E8EB;
+  color:#B6BCBF;
+}
+
+.popup__close-icon {
+  width: 100%;
+  color: white;
+}
+
+.popup__link {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #2F71E5;
+  background: transparent;
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.popup__link-text {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin: 16px auto 0 auto;
+  padding: 0;
+}
+
+.popup__form {
+  min-height: 214px;
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.popup__container {
+  min-width: 430px;
+  background-color: white;
+  border-radius: 16px;
+  padding: 34px 36px 23px 36px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.popup__input {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  min-width: 358px;
+  padding: 9px 0 10px 0;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  caret-color: #2F71E5;
+}
+
+.popup__input::placeholder {
+  color: #B6BCBF;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.popup__input:focus {
+  outline: none;
+  border-bottom: 1px solid black;
+}
+
+.popup__label {
+  margin-top: 31px;
+  font-family: 'Inter';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #2F71E5;
+}
+
+.popup__label:first-child {
+  margin-top: 0;
+}
+
+.popup__input-error {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ff0000;
+  visibility: hidden;
+}
+
+.popup__input-error_visible {
+  visibility: visible;
+}
+
+.popup__input-error_user-exists {
+  margin: 17px auto 8px auto;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .form__submit {
+  font-size: 14px;
+  line-height: 17px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .popup__container {
+    min-width: 320px;
+    margin-top: 56px;
+    height: 100%;
+    padding: 16px;
+  }
+
+  .popup__input {
+    max-width: 288px;
+    min-width: 288px;
+  }
+
+  .popup__submit-button {
+    max-width: 288px;
+    min-width: 288px;
+  }
+
+  .popup__close-button {
+    width: 24px;
+    height: 24px;
+    top: -25px;
+    right: 5px;
+  }
+
+  .popup__close-icon {
+    width: 24px;
+    height: 24px;
+  }
+}

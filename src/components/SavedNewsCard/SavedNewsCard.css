@@ -1,0 +1,199 @@
+.saved-card {
+  max-width: 400px;
+  min-height: 576px;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.saved-card__image {
+  background-image: url('../../images/card-sample.jpg');
+  max-width: 400px;
+  height: 272px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-radius: 15px 15px 0 0;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.saved-card__delete-button {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin: 0;
+  outline: none;
+}
+
+.saved-card__delete-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.saved-card__offer-delete {
+  width: 182px;
+  height: 40px;
+  margin-right: 5px;
+  padding: 16px 10px;
+  background: #FFFFFF;
+  box-shadow: 0px 10px 22px rgba(59, 74, 116, 0.1);
+  border-radius: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.saved-card__keyword-container {
+  height: 40px;
+  padding: 8px 12px;
+  background: #FFFFFF;
+  box-shadow: 0px 10px 22px rgba(59, 74, 116, 0.1);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.saved-card__keyword-text {
+  font-family: 'Roboto Regular';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.saved-card__offer-delete_visible {
+  visibility: visible;
+}
+
+.saved-card__offer-delete-message {
+  font-family: 'Roboto Regular';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
+  letter-spacing: 0px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.saved-card__delete-icon {
+  width: 24px;
+  height: 24px;
+  margin: auto;
+}
+
+.saved-card__text-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px 24px 24px;
+  min-height: 304px;
+  box-sizing: border-box;
+}
+
+.saved-card__date {
+  font-family: 'Source Sans Pro';
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #B6BCBF;
+  margin: 0;
+  padding: 0;
+}
+
+.saved-card__title {
+  font-family: 'Roboto Slab';
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #1A1B22;
+  margin: 0;
+  padding: 0;
+}
+
+.saved-card__intro {
+  font-family: 'Roboto Regular';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #1A1B22;
+  margin: 0;
+  padding: 0;
+}
+
+.saved-card__source {
+  font-family: 'Roboto Slab';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #B6BCBF;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .saved-card {
+    max-width: 420px;
+  }
+
+  .saved-card__image {
+    max-width: 420px;
+    padding: 8px;
+  }
+
+  .saved-card__title {
+    font-size: 22px;
+    line-height: 24px;
+    margin-top: 12px;
+  }
+
+  .saved-card__offer-delete {
+    padding: 8px;
+    width: 80px;
+    margin-right: 4px;
+  }
+
+  .saved-card__offer-delete-message {
+    font-size: 10px;
+  }
+
+  .saved-card__intro {
+    margin-top: 10px;
+  }
+
+  .saved-card__source {
+    margin-top: 12px;
+  }
+
+}
+
