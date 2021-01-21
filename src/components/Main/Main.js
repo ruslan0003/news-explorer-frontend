@@ -6,7 +6,7 @@ function Main(props) {
   return (
     <div className="main">
       <NewsCardList isLoggedIn={props.isLoggedIn} cards={props.cards} isFound={props.isFound}
-      isSearchClicked={props.isSearchClicked} />
+      isSearchClicked={props.isSearchClicked} showMore={props.showMore}/>
       <div className="author">
         <div className="author__photo"></div>
         <div className="author__about">
@@ -31,6 +31,7 @@ Main.propTypes = {
   cards: PropTypes.array,
   isFound: PropTypes.bool,
   isSearchClicked: PropTypes.bool,
+  showMore: PropTypes.func,
 };
 
 export default Main;

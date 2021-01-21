@@ -7,6 +7,7 @@ import openMenuIconBlack from '../../images/menu-black.svg';
 import closeMenuIcon from '../../images/close-icon.svg';
 
 function SavedNewsHeader(props) {
+  const name = props.userName;
   return (
       <div className="saved-news-header">
     <div className={ props.isMenuOpen ? 'saved-news-header__container saved-news-header__container_dark' : 'saved-news-header__container' } >
@@ -20,7 +21,7 @@ function SavedNewsHeader(props) {
       <NavLink exact to="/" className="saved-news-header__link" activeClassName="saved-news-header__link_active">Главная</NavLink>
           <NavLink to="/saved-news" className="saved-news-header__link" activeClassName="saved-news-header__link_active">Сохранённые статьи</NavLink>
           <button className="saved-news-header__button-logout" onClick={props.onLogoutClick}>
-            <p className="saved-news-header__username">Грета</p>
+            <p className="saved-news-header__username">{name}</p>
             <img className="saved-news-header__logout-icon" alt="Иконка выхода" src={props.isMenuOpen ? logoutIconWhite : logoutIcon}></img></button>
         </div>
       </div>
@@ -32,6 +33,7 @@ SavedNewsHeader.propTypes = {
   onLogoutClick: PropTypes.func,
   onMenuOpenClick: PropTypes.func,
   isMenuOpen: PropTypes.bool,
+  userName: PropTypes.string,
 };
 
 export default SavedNewsHeader;

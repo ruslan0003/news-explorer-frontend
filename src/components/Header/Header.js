@@ -6,7 +6,7 @@ import openMenuIcon from '../../images/menu.svg';
 import closeMenuIcon from '../../images/close-icon.svg';
 
 function Header(props) {
-  // const { name } = props.userData;
+  const name = props.userName;
   return (
     props.isLoggedIn ? <div className="header">
       <div className={props.isMenuOpen ? 'header__container header__container_dark' : 'header__container'} >
@@ -20,7 +20,7 @@ function Header(props) {
           <NavLink exact to="/" className="header__link" activeClassName="header__link_active">Главная</NavLink>
           <NavLink to="/saved-news" className="header__link" activeClassName="header__link_active">Сохранённые статьи</NavLink>
           <button className="header__button-logout" onClick={props.onLogoutClick}>
-            <span className="header__username">Грета</span>
+            <span className="header__username">{name}</span>
             <img className="header__logout-icon" alt="Иконка выхода" src={logoutIconWhite}></img></button>
         </div>
       </div>
@@ -48,6 +48,7 @@ Header.propTypes = {
   isLoggedIn: PropTypes.bool,
   onMenuOpenClick: PropTypes.func,
   isMenuOpen: PropTypes.bool,
+  userName: PropTypes.string,
 };
 
 export default Header;

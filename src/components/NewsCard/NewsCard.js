@@ -35,22 +35,25 @@ function NewsCard(props) {
 
   return (
     props.isLoggedIn ? <div className="card">
-        <div className="card__image" style={{ background: `url(${props.card.image})` }}>
-          <button className="card__bookmark-button" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} onClick={toggleIconState}>
-            <img className="card__bookmark-icon" src={selected} alt="Кнопка добавить в избранное"></img>
-          </button>
-        </div>
-        <a href="https://praktikum.yandex.ru/" target="_blank" rel="noreferrer" className="card__link">
-          <div className="card__text-block">
-            <p className="card__date">{props.card.date}</p>
-            <h3 className="card__title">{props.card.title}</h3>
-            <p className="card__intro">{props.card.intro}</p>
-            <p className="card__source">{props.card.source}</p>
-          </div>
-        </a>
+      <div className="card__image-block">
+        <img className="card__image" src={`${props.card.image}`}></img>
+        <button className="card__bookmark-button" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave} onClick={toggleIconState}>
+          <img className="card__bookmark-icon" src={selected} alt="Кнопка добавить в избранное"></img>
+        </button>
       </div>
+      <a href={`${props.card.url}`} target="_blank" rel="noreferrer" className="card__link">
+        <div className="card__text-block">
+          <p className="card__date">{props.card.date}</p>
+          <h3 className="card__title">{props.card.title}</h3>
+          <p className="card__intro">{props.card.intro}</p>
+          <p className="card__source">{props.card.source}</p>
+        </div>
+      </a>
+    </div >
       : <div className="card">
-        <div className="card__image" style={{ backgroundImage: `url(${props.card.image})` }}>
+        <div className="card__image-block">
+          <img className="card__image" src={`${props.card.image}`}></img>
+
           <div className={hovered ? 'card__offer-login card__offer-login_visible' : 'card__offer-login'}>
             <p className="card__offer-login-message">Войдите, чтобы сохранять статьи</p>
           </div>
@@ -58,7 +61,8 @@ function NewsCard(props) {
             <img className="card__bookmark-icon" src={hovered ? `${bookmarkBlack}` : `${bookmark}`} alt="Кнопка добавить в избранное"></img>
           </button>
         </div>
-        <a href="https://praktikum.yandex.ru/" target="_blank" rel="noreferrer" className="card__link">
+
+        <a href={`${props.card.url}`} target="_blank" rel="noreferrer" className="card__link">
           <div className="card__text-block">
             <p className="card__date">{props.card.date}</p>
             <h3 className="card__title">{props.card.title}</h3>

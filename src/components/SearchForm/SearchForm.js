@@ -1,21 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { findArticles } from '../../utils/NewsApi';
 
 function SearchForm(props) {
   const [request, setRequest] = React.useState('');
 
-  function handleSearchClick() {
-    if (request === 'природа') {
-      props.onSearchClick();
-      props.setSearchFound();
-    } else {
-      props.onSearchClick();
-      props.setSearchNotFound();
-    }
-  }
-
   function handleChangeRequest(evt) {
     setRequest(evt.target.value);
+  }
+
+  async function handleSearchClick(evt) {
+    evt.preventDefault();
+    if (request === '') {
+      props.emptyRequest();
+    } else {
+      const foundArticles = await findArticles(request);
+      props.onSearchClick(foundArticles, request);
+    }
   }
 
   return (
@@ -36,9 +37,8 @@ function SearchForm(props) {
 
 SearchForm.propTypes = {
   onSearchClick: PropTypes.func,
-  setSearchFound: PropTypes.func,
-  setSearchNotFound: PropTypes.func,
   setSearchClicked: PropTypes.func,
+  emptyRequest: PropTypes.func,
 };
 
 export default SearchForm;

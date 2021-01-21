@@ -4,15 +4,38 @@ import NewsCard from '../NewsCard/NewsCard';
 import notFound from '../../images/not-found.svg';
 
 function NewsCardList(props) {
+  const [visibleCards, setVisibleCards] = React.useState(3);
+  const [isShowMoreDisabled, setShowMoreDisabled] = React.useState(false);
+
+  function handleShowMoreButtonState() {
+    if (visibleCards >= props.cards.length) {
+      setShowMoreDisabled(true);
+    }
+  }
+
+  function showMoreCards() {
+    setVisibleCards((prevVisibleCards) => prevVisibleCards + 3);
+    console.log(props.cards.length);
+    console.log(visibleCards);
+    handleShowMoreButtonState();
+  }
+
+  /*  function resultsNotFound() {
+     if (props.cards === {}) {
+       props.isFound(false);
+     }
+   } */
+
   return (
     props.isFound ? <div className={props.isFound ? 'results results_visible' : 'results'} >
       <h2 className="results__title">Результаты поиска</h2>
       <div className="results__cards">
-        {props.cards.map((card, i) => <NewsCard key={i} isLoggedIn={props.isLoggedIn}
+        {props.cards.slice(0, visibleCards).map((card, i) => <NewsCard key={i}
+          isLoggedIn={props.isLoggedIn}
           card={card} />)}
       </div>
-      <div className="results__button-more-container">
-        <button className="results__button-more">Показать ещё</button>
+      <div className={isShowMoreDisabled ? 'results__button-more-container' : 'results__button-more-container results__button-more-container_visible'}>
+        <button className="results__button-more" onClick={showMoreCards}>Показать ещё</button>
       </div>
     </div>
       : <div className={props.isSearchClicked ? 'not-found not-found_visible' : 'not-found'}>
@@ -28,6 +51,7 @@ NewsCardList.propTypes = {
   isFound: PropTypes.bool,
   isSearchClicked: PropTypes.bool,
   cards: PropTypes.array,
+  showMore: PropTypes.func,
 };
 
 export default NewsCardList;
