@@ -1,4 +1,4 @@
-import { setToken } from './token';
+import { setToken, getToken } from './token';
 import { apiConfig } from './config';
 import ROUTES_MAP from './routesMap';
 
@@ -90,14 +90,38 @@ export function getSavedNews(token) {
     });
 }
 
-export function saveCard(title, url, date, intro, image, source, keywords) {
-  return fetch(`${apiConfig.baseUrl}${ROUTES_MAP.CARDS}`,
+export function saveCard(image, link, date, title, text, source, keyword, _id) {
+  const token = getToken();
+  return fetch(`${apiConfig.baseUrl}${ROUTES_MAP.SAVED_NEWS}`,
     {
-      headers: this._headers,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       method: 'POST',
       body: JSON.stringify({
-        title, url, date, intro, image, source, keywords,
+        image, link, date, title, text, source, keyword, _id,
       }),
+    })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(new Error(`Ошибка: ${res.status}`));
+    });
+}
+
+export function deleteCard(cardId) {
+  const token = getToken();
+  return fetch(`${apiConfig.baseUrl}${ROUTES_MAP.SAVED_NEWS}/${cardId}`,
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      method: 'DELETE',
     })
     .then((res) => {
       if (res.ok) {

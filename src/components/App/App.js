@@ -14,7 +14,14 @@ import { getToken, removeToken, setToken } from '../../utils/token';
 // import initialCards from '../../utils/initialArticles2';
 // import Preloader from '../Preloader/Preloader';
 import UserContext from '../../contexts/UserContext';
-import { getContent, getSavedNews, saveCard } from '../../utils/MainApi';
+import {
+  getContent,
+  getSavedNews,
+  saveCard,
+  deleteCard,
+} from '../../utils/MainApi';
+
+//  const isOwn = props.card.owner === currentUser._id;
 
 function App() {
   const history = useHistory();
@@ -30,6 +37,17 @@ function App() {
   const [isSearchClicked, setSearchClicked] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({});
+  const [visibleCards, setVisibleCards] = React.useState(3);
+  const [visibleSavedCards, setVisibleSavedCards] = React.useState(3);
+  const [isShowMoreDisabled, setShowMoreDisabled] = React.useState(undefined);
+
+  function showMoreCards() {
+    setVisibleCards((prevVisibleCards) => prevVisibleCards + 3);
+  }
+
+  function showMoreSavedCards() {
+    setVisibleSavedCards((prevVisibleCards) => prevVisibleCards + 3);
+  }
 
   /* function changeDataFormat(arr) {
     let data = arr.articles.publishedAts.split('');
@@ -50,22 +68,18 @@ function App() {
   function renderSearchResults(apiCards, keyword) {
     const newsCards = apiCards.map((item) => ({
       image: item.urlToImage,
-      url: item.url,
+      link: item.url,
       date: item.publishedAt,
       title: item.title,
-      intro: item.description,
+      text: item.description,
       source: item.source.name,
       keyword,
     }));
     setCards(newsCards);
     if (newsCards.length === 0) {
       setSearchNotFound();
-      console.log('Ничего не найдено');
-      console.log(isFound);
-      console.log(isSearchClicked);
     } else {
       setSearchFound();
-      console.log('Что-то найдено');
     }
   }
 
@@ -73,22 +87,21 @@ function App() {
     Promise.all([
       getSavedNews(jwt),
     ]).then(([cardsApi]) => {
-      // console.log(cardsApi);
       const savedArticles = cardsApi.data.map((item) => ({
+        image: item.image,
+        link: item.link,
+        date: item.date,
         title: item.title,
-        keyword: item.keyword,
         text: item.text,
         source: item.source,
-        date: item.date,
-        link: item.link,
-        image: item.image,
+        keyword: item.keyword,
         _id: item._id,
-        owner: item.owner,
       }));
       setSavedCards(savedArticles);
-    }).catch((err) => {
-      console.log(err);
-    });
+    })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function tokenCheck() {
@@ -102,7 +115,6 @@ function App() {
             _id: res._id,
           };
           setUserData(currentUserData);
-          console.log(userData.name);
           setLoggedIn(true);
           history.push('/');
         }
@@ -125,6 +137,8 @@ function App() {
     setSearchClicked(true);
     const apiArticles = apiCards.articles;
     renderSearchResults(apiArticles, keyword);
+    setVisibleCards(3);
+    setShowMoreDisabled(false);
   }
 
   function closeAllPopups() {
@@ -180,15 +194,42 @@ function App() {
     setMenuOpen(!isMenuOpen);
   }
 
-  function handleSaveCard(title, url, date, intro, image, source, keywords) {
-    saveCard(title, url, date, intro, image, source, keywords).then(
-      (newCard) => {
-        setCards([...cards, newCard.card]);
-        closeAllPopups();
-      },
-    ).catch((err) => {
+  function handleSaveCard(card) {
+    saveCard(
+      card.image,
+      card.link,
+      card.date,
+      card.title,
+      card.text,
+      card.source,
+      card.keyword,
+      card._id,
+    ).then((newCard) => {
+      setSavedCards((savedCardsArray) => [...savedCardsArray, newCard.restArticle]);
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleCardDelete(card) {
+    deleteCard(card._id).then(() => {
+      const cardsWithoutDeleted = savedCards.filter((c) => c._id !== card._id);
+      setSavedCards(cardsWithoutDeleted);
+    }).catch((err) => {
       console.log(err);
     });
+  }
+
+  function declenseByCases() {
+    const n = savedCards.length;
+    let word;
+    if ((n === 1) || (n > 20 && n % 10 === 1)) {
+      word = 'сохранённая статья';
+    } else if ((n >= 2 && n <= 4) || (n > 20 && n % 10 >= 2 && n % 10 <= 4)) {
+      word = 'сохранённых статьи';
+    } else word = 'сохранённых статей';
+    return word;
   }
 
   return (
@@ -202,12 +243,17 @@ function App() {
               isMenuOpen={isMenuOpen} userName={userData.name} />
             <SearchForm onSearchClick={handleSearchClick} emptyRequest={setSearchNotFound} />
             <Main isLoggedIn={loggedIn} cards={cards} isFound={isFound}
-              isSearchClicked={isSearchClicked} saveCard={handleSaveCard} />
+              isSearchClicked={isSearchClicked} saveCard={handleSaveCard}
+              showMoreCards={showMoreCards} savedCards={savedCards}
+              isShowMoreDisabled={isShowMoreDisabled} visibleCards={visibleCards}
+              onCardDelete={handleCardDelete} />
           </Route>
           <Route path="/saved-news" exact>
             <SavedNewsHeader onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
               isMenuOpen={isMenuOpen} userName={userData.name} />
-            <SavedNews savedCards={savedCards} />
+            <SavedNews savedCards={savedCards} showMoreCards={showMoreSavedCards}
+              visibleCards={visibleSavedCards} userName={userData.name}
+              onCardDelete={handleCardDelete} wordForm={declenseByCases} />
           </Route>
         </Switch>
         {/* <Preloader /> */}

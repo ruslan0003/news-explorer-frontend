@@ -53,6 +53,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  visibility: hidden;
+}
+
+.saved-news__button-more-container_visible {
+  visibility: visible;
 }
 
 .saved-news__button-more {
@@ -87,6 +92,10 @@
   text-align: left;
   margin: 0;
   padding: 0;
+}
+
+.saved-news__keywords_hidden {
+  visibility: hidden;
 }
 
 .saved-news__keywords_bold {
