@@ -9,7 +9,7 @@ function Main(props) {
       isSearchClicked={props.isSearchClicked} showMoreCards={props.showMoreCards}
       saveCard={props.saveCard} isShowMoreDisabled={props.isShowMoreDisabled}
       visibleCards={props.visibleCards} savedCards={props.savedCards}
-      onCardDelete={props.onCardDelete}
+      onCardDelete={props.onCardDelete} dateFormat={props.dateFormat}
       />
       <div className="author">
         <div className="author__photo"></div>
@@ -41,6 +41,7 @@ Main.propTypes = {
   visibleCards: PropTypes.number,
   savedCards: PropTypes.array,
   onCardDelete: PropTypes.func,
+  dateFormat: PropTypes.func,
 };
 
 export default Main;

@@ -51,6 +51,8 @@ function NewsCard(props) {
     }
   }
 
+  const changedDate = props.dateFormat(props.card.date);
+
   function handleOnMouseEnter() {
     if (!favourite) {
       setSelected(bookmarkBlack);
@@ -73,7 +75,7 @@ function NewsCard(props) {
       </div>
       <a href={`${props.card.link}`} target="_blank" rel="noreferrer" className="card__link">
         <div className="card__text-block">
-          <p className="card__date">{props.card.date}</p>
+          <p className="card__date">{changedDate}</p>
           <h3 className="card__title">{props.card.title}</h3>
           <p className="card__intro">{props.card.intro}</p>
           <p className="card__source">{props.card.source}</p>
@@ -111,6 +113,7 @@ NewsCard.propTypes = {
   savedCards: PropTypes.array,
   onCardDelete: PropTypes.func,
   cards: PropTypes.array,
+  dateFormat: PropTypes.func,
 };
 
 export default NewsCard;

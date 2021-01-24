@@ -232,6 +232,29 @@ function App() {
     return word;
   }
 
+  function changeDateFormat(date) {
+    const dateOnly = date.split('T')[0].split('-').join('');
+    const year = dateOnly.slice(0, 4);
+    const month = dateOnly.slice(4, 6);
+    const day = dateOnly.slice(6, 8);
+    const monthsName = {
+      '01': 'января',
+      '02': 'февраля',
+      '03': 'марта',
+      '04': 'апреля',
+      '05': 'мая',
+      '06': 'июня',
+      '07': 'июля',
+      '08': 'августа',
+      '09': 'сентября',
+      10: 'октября',
+      11: 'ноября',
+      12: 'декабря',
+    };
+    const monthName = monthsName[month];
+    return `${day} ${monthName} ${year}`;
+  }
+
   return (
     <div className="app">
       <div className={isMenuOpen ? 'app__dark-overlay' : 'app__dark-overlay app__dark-overlay_hidden'}></div>
@@ -246,14 +269,15 @@ function App() {
               isSearchClicked={isSearchClicked} saveCard={handleSaveCard}
               showMoreCards={showMoreCards} savedCards={savedCards}
               isShowMoreDisabled={isShowMoreDisabled} visibleCards={visibleCards}
-              onCardDelete={handleCardDelete} />
+              onCardDelete={handleCardDelete} dateFormat={changeDateFormat}/>
           </Route>
           <Route path="/saved-news" exact>
             <SavedNewsHeader onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
               isMenuOpen={isMenuOpen} userName={userData.name} />
             <SavedNews savedCards={savedCards} showMoreCards={showMoreSavedCards}
               visibleCards={visibleSavedCards} userName={userData.name}
-              onCardDelete={handleCardDelete} wordForm={declenseByCases} />
+              onCardDelete={handleCardDelete} wordForm={declenseByCases}
+              dateFormat={changeDateFormat}/>
           </Route>
         </Switch>
         {/* <Preloader /> */}

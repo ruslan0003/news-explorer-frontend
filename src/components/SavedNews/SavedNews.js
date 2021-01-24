@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import SavedNewsCard from '../SavedNewsCard/SavedNewsCard';
 
 function SavedNews(props) {
+  function capitalize(str) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
+
   // функция возвращает полный список ключевых слов с дубликатами
   function getKeyWords() {
-    const keyWordsArray = props.savedCards.map((item) => item.keyword);
+    const keyWordsArray = props.savedCards.map((item) => capitalize(item.keyword));
     return keyWordsArray;
   }
   const keywords = getKeyWords();
@@ -86,7 +90,7 @@ function SavedNews(props) {
         <div className="saved-news__cards">
           {props.savedCards.slice(0, props.visibleCards).map((card, i) => <SavedNewsCard key={i}
             savedCard={card} showMoreCards={props.showMoreCards} visibleCards={props.visibleCards}
-            onCardDelete={props.onCardDelete} />)}
+            onCardDelete={props.onCardDelete} dateFormat={props.dateFormat} />)}
         </div>
         {props.visibleCards < props.savedCards.length && <div className={'saved-news__button-more-container saved-news__button-more-container_visible'}>
           <button className="saved-news__button-more" onClick={props.showMoreCards}>
@@ -106,4 +110,5 @@ SavedNews.propTypes = {
   onCardDelete: PropTypes.func,
   userName: PropTypes.string,
   wordForm: PropTypes.func,
+  dateFormat: PropTypes.func,
 };
