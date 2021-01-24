@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { findArticles } from '../../utils/NewsApi';
+import findArticles from '../../utils/NewsApi';
+import ERROR_MESSAGES from '../../utils/errorMessages';
 
 function SearchForm(props) {
   const [request, setRequest] = React.useState('');
+  const [isRequestEmpty, setRequestIsEmpty] = React.useState(false);
 
   function handleChangeRequest(evt) {
     setRequest(evt.target.value);
@@ -11,11 +13,20 @@ function SearchForm(props) {
 
   async function handleSearchClick(evt) {
     evt.preventDefault();
-    if (request === '') {
-      props.emptyRequest();
-    } else {
-      const foundArticles = await findArticles(request);
-      props.onSearchClick(foundArticles, request);
+    try {
+      props.setIsLoading(true);
+      if (request === '') {
+        setRequestIsEmpty(true);
+        props.setIsLoading(false);
+      } else {
+        const foundArticles = await findArticles(request);
+        if (foundArticles !== undefined) {
+          props.setIsLoading(false);
+          props.onSearchClick(foundArticles, request);
+        }
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -27,10 +38,9 @@ function SearchForm(props) {
           Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.
         </h4>
         <div className="search__form">
-          <input className="search__field" type="search" placeholder="Введите тему новости" onChange={handleChangeRequest} required></input>
+          <input className="search__field" type="search" placeholder={isRequestEmpty ? `${ERROR_MESSAGES.EMPTY_REQUEST}` : 'Введите тему новости'} onChange={handleChangeRequest} required></input>
           <button className="search__button" onClick={handleSearchClick}>Искать</button></div>
       </div>
-
     </div>
   );
 }
@@ -38,7 +48,7 @@ function SearchForm(props) {
 SearchForm.propTypes = {
   onSearchClick: PropTypes.func,
   setSearchClicked: PropTypes.func,
-  emptyRequest: PropTypes.func,
+  setIsLoading: PropTypes.func,
 };
 
 export default SearchForm;

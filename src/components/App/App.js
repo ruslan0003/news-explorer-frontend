@@ -11,8 +11,7 @@ import SavedNews from '../SavedNews/SavedNews';
 import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader';
 import InfoPopup from '../PopupWithText/PopupWithText';
 import { getToken, removeToken, setToken } from '../../utils/token';
-// import initialCards from '../../utils/initialArticles2';
-// import Preloader from '../Preloader/Preloader';
+import Preloader from '../Preloader/Preloader';
 import UserContext from '../../contexts/UserContext';
 import {
   getContent,
@@ -20,8 +19,6 @@ import {
   saveCard,
   deleteCard,
 } from '../../utils/MainApi';
-
-//  const isOwn = props.card.owner === currentUser._id;
 
 function App() {
   const history = useHistory();
@@ -40,6 +37,7 @@ function App() {
   const [visibleCards, setVisibleCards] = React.useState(3);
   const [visibleSavedCards, setVisibleSavedCards] = React.useState(3);
   const [isShowMoreDisabled, setShowMoreDisabled] = React.useState(undefined);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   function showMoreCards() {
     setVisibleCards((prevVisibleCards) => prevVisibleCards + 3);
@@ -48,14 +46,6 @@ function App() {
   function showMoreSavedCards() {
     setVisibleSavedCards((prevVisibleCards) => prevVisibleCards + 3);
   }
-
-  /* function changeDataFormat(arr) {
-    let data = arr.articles.publishedAts.split('');
-    arr.sort(function (a, b) {
-        return a > b; // тут любой ваш алгоритм сортировки
-    });
-    return arr.join('');
-} */
 
   function setSearchFound() {
     setFound(true);
@@ -66,6 +56,7 @@ function App() {
   }
 
   function renderSearchResults(apiCards, keyword) {
+    console.log(apiCards);
     const newsCards = apiCards.map((item) => ({
       image: item.urlToImage,
       link: item.url,
@@ -136,6 +127,7 @@ function App() {
   function handleSearchClick(apiCards, keyword) {
     setSearchClicked(true);
     const apiArticles = apiCards.articles;
+    console.log(apiArticles);
     renderSearchResults(apiArticles, keyword);
     setVisibleCards(3);
     setShowMoreDisabled(false);
@@ -264,7 +256,9 @@ function App() {
             <Header onLoginClick={handleLoginPopupOpen} isLoggedIn={loggedIn}
               onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
               isMenuOpen={isMenuOpen} userName={userData.name} />
-            <SearchForm onSearchClick={handleSearchClick} emptyRequest={setSearchNotFound} />
+            <SearchForm onSearchClick={handleSearchClick} emptyRequest={setSearchNotFound}
+            setIsLoading={setIsLoading} />
+            <Preloader isLoading={isLoading}/>
             <Main isLoggedIn={loggedIn} cards={cards} isFound={isFound}
               isSearchClicked={isSearchClicked} saveCard={handleSaveCard}
               showMoreCards={showMoreCards} savedCards={savedCards}
@@ -280,7 +274,6 @@ function App() {
               dateFormat={changeDateFormat}/>
           </Route>
         </Switch>
-        {/* <Preloader /> */}
         <Footer />
         <LoginPopup isOpen={isLoginPopupOpen} onClose={closeAllPopups}
           onRegisterClick={handleRegisterPopupOpen} onSubmit={handleLogin} />

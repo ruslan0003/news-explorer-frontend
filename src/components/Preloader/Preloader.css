@@ -23,6 +23,10 @@
 	animation: spin .75s infinite linear;
 }
 
+.preloader_hidden {
+  display: none;
+}
+
 @keyframes spin {
 	100% {
 		transform: rotate(360deg);
