@@ -13,6 +13,7 @@ import InfoPopup from '../PopupWithText/PopupWithText';
 import { getToken, removeToken, setToken } from '../../utils/token';
 import Preloader from '../Preloader/Preloader';
 import UserContext from '../../contexts/UserContext';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import {
   getContent,
   getSavedNews,
@@ -26,7 +27,6 @@ function App() {
   const [isLoginPopupOpen, setLoginPopupOpen] = React.useState(false);
   const [isRegisterPopupOpen, setRegisterPopupOpen] = React.useState(false);
   const [isInfoPopupOpen, setInfoPopupOpen] = React.useState(false);
-  const [isRegistrationValid, setRegistrationStatus] = React.useState(false);
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [savedCards, setSavedCards] = React.useState([]);
@@ -99,7 +99,7 @@ function App() {
     const jwt = getToken();
     if (jwt) {
       getContent(jwt).then((res) => {
-        if (res) {
+        if (res.email && res.name && res._id) {
           const currentUserData = {
             email: res.email,
             name: res.name,
@@ -107,6 +107,9 @@ function App() {
           };
           setUserData(currentUserData);
           setLoggedIn(true);
+          history.push('/');
+        } else {
+          setLoggedIn(false);
           history.push('/');
         }
       }).catch((err) => {
@@ -121,13 +124,14 @@ function App() {
     if (tokenStatus) {
       const jwt = getToken();
       renderSavedCards(jwt);
-    } tokenCheck();
+      console.log(tokenStatus);
+    }
+    tokenCheck();
   }, []);
 
   function handleSearchClick(apiCards, keyword) {
     setSearchClicked(true);
     const apiArticles = apiCards.articles;
-    console.log(apiArticles);
     renderSearchResults(apiArticles, keyword);
     setVisibleCards(3);
     setShowMoreDisabled(false);
@@ -157,23 +161,21 @@ function App() {
     setInfoPopupOpen(true);
   }
 
-  function handleRegistrationStatus(status) {
-    setRegistrationStatus(status);
-  }
-
   function handleRegister(boolean) {
-    handleInfoPopupOpen();
-    handleRegistrationStatus(boolean);
+    if (boolean) {
+      handleInfoPopupOpen();
+    }
   }
 
   function handleLogin(currentUserData, userToken) {
-    setLoggedIn(true);
-    closeAllPopups();
-    setUserData(currentUserData);
-    setToken(userToken);
-    tokenCheck();
-    renderSavedCards(userToken);
-    console.log(currentUserData);
+    if (currentUserData && userToken) {
+      setUserData(currentUserData);
+      setToken(userToken);
+      tokenCheck();
+      renderSavedCards(userToken);
+      console.log(currentUserData);
+      closeAllPopups();
+    }
   }
 
   function handleLogout() {
@@ -257,30 +259,31 @@ function App() {
               onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
               isMenuOpen={isMenuOpen} userName={userData.name} />
             <SearchForm onSearchClick={handleSearchClick} emptyRequest={setSearchNotFound}
-            setIsLoading={setIsLoading} />
-            <Preloader isLoading={isLoading}/>
+              setIsLoading={setIsLoading} />
+            <Preloader isLoading={isLoading} />
             <Main isLoggedIn={loggedIn} cards={cards} isFound={isFound}
               isSearchClicked={isSearchClicked} saveCard={handleSaveCard}
               showMoreCards={showMoreCards} savedCards={savedCards}
               isShowMoreDisabled={isShowMoreDisabled} visibleCards={visibleCards}
-              onCardDelete={handleCardDelete} dateFormat={changeDateFormat}/>
+              onCardDelete={handleCardDelete} dateFormat={changeDateFormat} />
           </Route>
-          <Route path="/saved-news" exact>
+          <ProtectedRoute path="/saved-news" exact loggedIn={loggedIn}>
             <SavedNewsHeader onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
               isMenuOpen={isMenuOpen} userName={userData.name} />
             <SavedNews savedCards={savedCards} showMoreCards={showMoreSavedCards}
               visibleCards={visibleSavedCards} userName={userData.name}
               onCardDelete={handleCardDelete} wordForm={declenseByCases}
-              dateFormat={changeDateFormat}/>
-          </Route>
+              dateFormat={changeDateFormat} />
+          </ProtectedRoute>
         </Switch>
         <Footer />
-        <LoginPopup isOpen={isLoginPopupOpen} onClose={closeAllPopups}
-          onRegisterClick={handleRegisterPopupOpen} onSubmit={handleLogin} />
+        <LoginPopup isOpen={isLoginPopupOpen} onClose={closeAllPopups} setLoggedIn={setLoggedIn}
+          onRegisterClick={handleRegisterPopupOpen} onSubmit={handleLogin}
+          removeToken={removeToken} />
         <RegisterPopup isOpen={isRegisterPopupOpen} onClose={closeAllPopups}
           onLoginClick={handleLoginPopupOpen} onSubmit={handleRegister} />
         <InfoPopup isOpen={isInfoPopupOpen} onClose={closeAllPopups}
-          onLoginClick={handleLoginPopupOpen} isRegistrationValid={isRegistrationValid} />
+          onLoginClick={handleLoginPopupOpen} />
       </UserContext.Provider>
     </div>
   );

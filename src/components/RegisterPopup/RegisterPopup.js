@@ -6,7 +6,7 @@ import useForm from '../../utils/useForm';
 import { register } from '../../utils/MainApi';
 
 function RegisterPopup(props) {
-  const [isUserNew, setUserNew] = React.useState(true);
+  const [message, setMessage] = React.useState('');
 
   const stateSchema = {
     email: { value: '', error: '' },
@@ -41,42 +41,48 @@ function RegisterPopup(props) {
     handleOnChange,
     handleOnSubmit,
     disable,
-  // eslint-disable-next-line no-use-before-define
+    // eslint-disable-next-line no-use-before-define
   } = useForm(stateSchema, stateValidatorSchema, onSubmitForm);
 
   const { email, password, name } = values;
 
   function onSubmitForm() {
     register(email, password, name).then((res) => {
-      if (res) {
+      if (res.email && res._id) {
         props.onSubmit(true);
-        setUserNew(true);
-      } else {
+        setMessage('');
+        console.log(res);
+      } else if (res.status === 409) {
         props.onSubmit(false);
-        setUserNew(false);
+        setMessage(ERROR_MESSAGES.USER_EXISTS);
       }
     }).catch((err) => console.log(err));
   }
 
+  function handleOnClose() {
+    props.onClose();
+    setMessage('');
+  }
+
   return (
     <PopupWithForm name="register-popup" button="Зарегистрироваться" title="Регистрация"
-      onClose={props.onClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Войти" onLoginClick={props.onLoginClick}>
+      onClose={handleOnClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Войти" onLoginClick={props.onLoginClick}>
       <label className="popup__label" htmlFor="email">Email</label>
       <input className="popup__input" id="email" name="email" type="email" placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleOnChange} required />
       {errors.email && dirty.email && (
-      <span className='popup__input-error popup__input-error_visible' id="email-register-error">{errors.email}</span>
+        <span className='popup__input-error popup__input-error_visible' id="email-register-error">{errors.email}</span>
       )}
       <label className="popup__label" htmlFor="password-input">Пароль</label>
       <input className="popup__input" id="password" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} required />
       {errors.password && dirty.password && (
-      <span className='popup__input-error popup__input-error_visible' id="password-register-error">{errors.password}</span>
+        <span className='popup__input-error popup__input-error_visible' id="password-register-error">{errors.password}</span>
       )}
       <label className="popup__label" htmlFor="name">Имя</label>
       <input className="popup__input" id="name" name="name" placeholder="Введите имя" minLength="2" maxLength="40" onChange={handleOnChange} required />
       {errors.name && dirty.name && (
-      <span className='popup__input-error popup__input-error_visible' id="name-register-error">{errors.name}</span>
+        <span className='popup__input-error popup__input-error_visible' id="name-register-error">{errors.name}</span>
       )}
-      <span className={isUserNew ? 'popup__input-error popup__input-error_user-exists' : 'popup__input-error popup__input-error_visible popup__input-error_user-exists'}>{ERROR_MESSAGES.USER_EXISTS}</span>
+      <span className={'popup__input-error popup__input-error_visible popup__input-error_center'}>{message}</span>
       <button className='popup__submit-button popup__submit-button_register' type="submit" disabled={disable} onSubmit={props.onSubmit}>Зарегистрироваться</button>
     </PopupWithForm >
   );

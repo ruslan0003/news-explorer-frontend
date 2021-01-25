@@ -9,6 +9,7 @@ function SearchForm(props) {
 
   function handleChangeRequest(evt) {
     setRequest(evt.target.value);
+    setRequestIsEmpty(false);
   }
 
   async function handleSearchClick(evt) {
@@ -19,6 +20,7 @@ function SearchForm(props) {
         setRequestIsEmpty(true);
         props.setIsLoading(false);
       } else {
+        setRequestIsEmpty(false);
         const foundArticles = await findArticles(request);
         if (foundArticles !== undefined) {
           props.setIsLoading(false);
@@ -38,8 +40,10 @@ function SearchForm(props) {
           Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.
         </h4>
         <div className="search__form">
-          <input className="search__field" type="search" placeholder={isRequestEmpty ? `${ERROR_MESSAGES.EMPTY_REQUEST}` : 'Введите тему новости'} onChange={handleChangeRequest} required></input>
-          <button className="search__button" onClick={handleSearchClick}>Искать</button></div>
+          <input className="search__field" type="search" placeholder="Введите тему новости" onChange={handleChangeRequest} required></input>
+          <button className="search__button" onClick={handleSearchClick}>Искать</button>
+          <span className={isRequestEmpty ? 'search__input-error search__input-error_visible' : 'search__input-error'}>{ERROR_MESSAGES.EMPTY_REQUEST}</span>
+          </div>
       </div>
     </div>
   );

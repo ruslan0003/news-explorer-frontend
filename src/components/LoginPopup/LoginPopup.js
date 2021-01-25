@@ -1,11 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import ERROR_MESSAGES from '../../utils/errorMessages';
 import { authorize } from '../../utils/MainApi';
 import useForm from '../../utils/useForm';
 
 function LoginPopup(props) {
+  const [message, setMessage] = React.useState('');
   const stateSchema = {
     email: { value: '', error: '' },
     password: { value: '', error: '' },
@@ -31,7 +32,7 @@ function LoginPopup(props) {
     handleOnChange,
     handleOnSubmit,
     disable,
-  // eslint-disable-next-line no-use-before-define
+    // eslint-disable-next-line no-use-before-define
   } = useForm(stateSchema, stateValidatorSchema, onSubmitForm);
 
   const { email, password } = values;
@@ -39,25 +40,40 @@ function LoginPopup(props) {
   function onSubmitForm() {
     authorize(email, password)
       .then((res) => {
-        const currentUserData = { email, password };
-        props.onSubmit(currentUserData, res.token);
-        console.log(currentUserData);
+        if (!res || res.status === 401) {
+          setMessage('Неверно указан email либо пароль');
+          props.setLoggedIn(false);
+          props.removeToken();
+        } else {
+          const currentUserData = { email, password };
+          props.onSubmit(currentUserData, res.token);
+          console.log(currentUserData);
+          setMessage('');
+          console.log(message);
+          props.setLoggedIn(true);
+        }
       })
       .catch((err) => console.log(err));
   }
 
+  function handleOnClose() {
+    props.onClose();
+    setMessage('');
+  }
+
   return (
-    <PopupWithForm name="login-popup" title="Вход" onClose={props.onClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Зарегистрироваться" onRegisterClick={props.onRegisterClick}>
+    <PopupWithForm name="login-popup" title="Вход" onClose={handleOnClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Зарегистрироваться" onRegisterClick={props.onRegisterClick}>
       <label className="popup__label" htmlFor="email">Email</label>
-      <input className="popup__input" id="email-login" name="email" type="email" placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleOnChange} required />
+      <input className="popup__input" id="email-login" name="email" type="email" placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleOnChange} value={values.email} required />
       {errors.email && dirty.email && (
         <span className='popup__input-error popup__input-error_visible' id="email-login-error">{errors.email}</span>
       )}
       <label className="popup__label" htmlFor="password">Пароль</label>
-      <input className="popup__input" id="password-login" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} required />
+      <input className="popup__input" id="password-login" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} value={values.password} required />
       {errors.password && dirty.password && (
         <span className='popup__input-error popup__input-error_visible' id="password-login-error">{errors.password}</span>
       )}
+       <span className={'popup__input-error popup__input-error_visible popup__input-error_center'}>{message}</span>
       <button className='popup__submit-button' type="submit" disabled={disable}>Войти</button>
     </PopupWithForm>
   );
@@ -68,6 +84,8 @@ LoginPopup.propTypes = {
   onClose: PropTypes.func,
   onRegisterClick: PropTypes.func,
   onSubmit: PropTypes.func,
+  setLoggedIn: PropTypes.func,
+  removeToken: PropTypes.func,
 };
 
 export default LoginPopup;

@@ -51,7 +51,7 @@ function useForm(
   const validateFormFields = useCallback(
     (name, value) => {
       const validator = stateValidatorSchema;
-      if (!validator[name]) return;
+      if (!validator[name]) return undefined;
 
       const field = validator[name];
 
@@ -65,7 +65,6 @@ function useForm(
           error = fieldValidator.error;
         }
       }
-      // eslint-disable-next-line consistent-return
       return error;
     },
     [stateValidatorSchema, values],
