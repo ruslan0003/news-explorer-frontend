@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 const ProtectedRoute = (props) => {
   const { loggedIn, children, ...rest } = props;
-  return loggedIn ? <Route {...rest}>{children}</Route> : <Redirect to='/saved-news' />;
+  return loggedIn ? <Route {...rest}>{children}</Route> : <Redirect to='/' />;
 };
 
 export default ProtectedRoute;

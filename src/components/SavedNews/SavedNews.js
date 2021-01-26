@@ -61,10 +61,6 @@ function SavedNews(props) {
 
   const numberOfRestKeywords = showNumberOfRestKeywords(frequentKeywords);
 
-  console.log(frequentKeywords);
-  console.log(keywordsFilterd);
-  console.log(numberOfRestKeywords);
-
   const wordCaseForm = props.wordForm();
   return (
     <>

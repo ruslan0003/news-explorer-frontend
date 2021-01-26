@@ -24,6 +24,10 @@ function RegisterPopup(props) {
     },
     password: {
       required: true,
+      validator: {
+        func: (value) => /.{3,40}/.test(value),
+        error: 'Допустимое значение от 3 символов',
+      },
     },
     name: {
       requred: true,
@@ -34,24 +38,17 @@ function RegisterPopup(props) {
     },
   };
 
-  const {
-    values,
-    errors,
-    dirty,
-    handleOnChange,
-    handleOnSubmit,
-    disable,
-    // eslint-disable-next-line no-use-before-define
-  } = useForm(stateSchema, stateValidatorSchema, onSubmitForm);
+  function formReset() {
+    document.getElementById('register-popup').reset();
+    document.getElementById('register-submit').disabled = true;
+  }
 
-  const { email, password, name } = values;
-
-  function onSubmitForm() {
+  function onSubmitForm({ email, password, name }) {
     register(email, password, name).then((res) => {
       if (res.email && res._id) {
         props.onSubmit(true);
         setMessage('');
-        console.log(res);
+        formReset();
       } else if (res.status === 409) {
         props.onSubmit(false);
         setMessage(ERROR_MESSAGES.USER_EXISTS);
@@ -59,31 +56,43 @@ function RegisterPopup(props) {
     }).catch((err) => console.log(err));
   }
 
-  function handleOnClose() {
+  const {
+    errors,
+    dirty,
+    handleOnChange,
+    handleOnClose,
+    handleOnSubmit,
+    isShown,
+    disable,
+  } = useForm(stateSchema, stateValidatorSchema, onSubmitForm);
+
+  function handleClose() {
+    handleOnClose();
     props.onClose();
     setMessage('');
+    formReset();
   }
 
   return (
     <PopupWithForm name="register-popup" button="Зарегистрироваться" title="Регистрация"
-      onClose={handleOnClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Войти" onLoginClick={props.onLoginClick}>
+      onClose={handleClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Войти" onLoginClick={props.onLoginClick}>
       <label className="popup__label" htmlFor="email">Email</label>
-      <input className="popup__input" id="email" name="email" type="email" placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleOnChange} required />
+      <input className="popup__input" id="email" name="email" type="email" placeholder="Введите почту" onChange={handleOnChange} required />
       {errors.email && dirty.email && (
-        <span className='popup__input-error popup__input-error_visible' id="email-register-error">{errors.email}</span>
+        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="email-register-error">{errors.email}</span>
       )}
-      <label className="popup__label" htmlFor="password-input">Пароль</label>
+      <label className="popup__label" htmlFor="password-input" minLength="3">Пароль</label>
       <input className="popup__input" id="password" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} required />
       {errors.password && dirty.password && (
-        <span className='popup__input-error popup__input-error_visible' id="password-register-error">{errors.password}</span>
+        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="password-register-error">{errors.password}</span>
       )}
       <label className="popup__label" htmlFor="name">Имя</label>
       <input className="popup__input" id="name" name="name" placeholder="Введите имя" minLength="2" maxLength="40" onChange={handleOnChange} required />
       {errors.name && dirty.name && (
-        <span className='popup__input-error popup__input-error_visible' id="name-register-error">{errors.name}</span>
+        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="name-register-error">{errors.name}</span>
       )}
       <span className={'popup__input-error popup__input-error_visible popup__input-error_center'}>{message}</span>
-      <button className='popup__submit-button popup__submit-button_register' type="submit" disabled={disable} onSubmit={props.onSubmit}>Зарегистрироваться</button>
+      <button className='popup__submit-button popup__submit-button_register' id="register-submit" type="submit" disabled={disable} onSubmit={props.onSubmit}>Зарегистрироваться</button>
     </PopupWithForm >
   );
 }

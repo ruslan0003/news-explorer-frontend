@@ -5,8 +5,19 @@ import closeIcon from '../../images/close-icon.svg';
 function PopupWithForm(props) {
   function handleOnClose() {
     props.onClose();
-    document.getElementById(props.name).reset();
   }
+
+  React.useEffect(() => {
+    const listener = (evt) => {
+      if (evt.key === 'Escape') {
+        handleOnClose();
+      }
+    };
+    document.addEventListener('keydown', listener);
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  }, []);
 
   return (
     <section className={props.isOpen ? `popup ${props.name} popup_opened` : `popup ${props.name}`}>

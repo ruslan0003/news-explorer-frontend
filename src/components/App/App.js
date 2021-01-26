@@ -56,7 +56,6 @@ function App() {
   }
 
   function renderSearchResults(apiCards, keyword) {
-    console.log(apiCards);
     const newsCards = apiCards.map((item) => ({
       image: item.urlToImage,
       link: item.url,
@@ -124,7 +123,6 @@ function App() {
     if (tokenStatus) {
       const jwt = getToken();
       renderSavedCards(jwt);
-      console.log(tokenStatus);
     }
     tokenCheck();
   }, []);
@@ -173,7 +171,6 @@ function App() {
       setToken(userToken);
       tokenCheck();
       renderSavedCards(userToken);
-      console.log(currentUserData);
       closeAllPopups();
     }
   }
@@ -279,7 +276,7 @@ function App() {
         <Footer />
         <LoginPopup isOpen={isLoginPopupOpen} onClose={closeAllPopups} setLoggedIn={setLoggedIn}
           onRegisterClick={handleRegisterPopupOpen} onSubmit={handleLogin}
-          removeToken={removeToken} />
+          removeToken={removeToken}/>
         <RegisterPopup isOpen={isRegisterPopupOpen} onClose={closeAllPopups}
           onLoginClick={handleLoginPopupOpen} onSubmit={handleRegister} />
         <InfoPopup isOpen={isInfoPopupOpen} onClose={closeAllPopups}

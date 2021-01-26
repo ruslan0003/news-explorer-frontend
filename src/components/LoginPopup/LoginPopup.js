@@ -7,6 +7,7 @@ import useForm from '../../utils/useForm';
 
 function LoginPopup(props) {
   const [message, setMessage] = React.useState('');
+
   const stateSchema = {
     email: { value: '', error: '' },
     password: { value: '', error: '' },
@@ -25,56 +26,60 @@ function LoginPopup(props) {
     },
   };
 
-  const {
-    values,
-    errors,
-    dirty,
-    handleOnChange,
-    handleOnSubmit,
-    disable,
-    // eslint-disable-next-line no-use-before-define
-  } = useForm(stateSchema, stateValidatorSchema, onSubmitForm);
+  function formReset() {
+    document.getElementById('login-popup').reset();
+    document.getElementById('login-submit').disabled = true;
+  }
 
-  const { email, password } = values;
-
-  function onSubmitForm() {
+  function onSubmitForm({ email, password }) {
     authorize(email, password)
       .then((res) => {
-        if (!res || res.status === 401) {
+        if (!res || res.status === 401 || res.status === 400) {
           setMessage('Неверно указан email либо пароль');
           props.setLoggedIn(false);
           props.removeToken();
         } else {
           const currentUserData = { email, password };
           props.onSubmit(currentUserData, res.token);
-          console.log(currentUserData);
           setMessage('');
-          console.log(message);
           props.setLoggedIn(true);
+          formReset();
         }
       })
       .catch((err) => console.log(err));
   }
 
-  function handleOnClose() {
+  const {
+    errors,
+    dirty,
+    handleOnChange,
+    handleOnClose,
+    isShown,
+    handleOnSubmit,
+    disable,
+  } = useForm(stateSchema, stateValidatorSchema, onSubmitForm);
+
+  function handleClose() {
+    handleOnClose();
     props.onClose();
     setMessage('');
+    formReset();
   }
 
   return (
-    <PopupWithForm name="login-popup" title="Вход" onClose={handleOnClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Зарегистрироваться" onRegisterClick={props.onRegisterClick}>
+    <PopupWithForm name="login-popup" title="Вход" onClose={handleClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Зарегистрироваться" onRegisterClick={props.onRegisterClick}>
       <label className="popup__label" htmlFor="email">Email</label>
-      <input className="popup__input" id="email-login" name="email" type="email" placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleOnChange} value={values.email} required />
+      <input className="popup__input" id="email-login" name="email" type="email" placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleOnChange} required />
       {errors.email && dirty.email && (
-        <span className='popup__input-error popup__input-error_visible' id="email-login-error">{errors.email}</span>
+        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="email-login-error">{errors.email}</span>
       )}
       <label className="popup__label" htmlFor="password">Пароль</label>
-      <input className="popup__input" id="password-login" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} value={values.password} required />
+      <input className="popup__input" id="password-login" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} required />
       {errors.password && dirty.password && (
-        <span className='popup__input-error popup__input-error_visible' id="password-login-error">{errors.password}</span>
+        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="password-login-error">{errors.password}</span>
       )}
-       <span className={'popup__input-error popup__input-error_visible popup__input-error_center'}>{message}</span>
-      <button className='popup__submit-button' type="submit" disabled={disable}>Войти</button>
+      <span className={'popup__input-error popup__input-error_visible popup__input-error_center'}>{message}</span>
+      <button className='popup__submit-button' id="login-submit" type="submit" disabled={disable}>Войти</button>
     </PopupWithForm>
   );
 }

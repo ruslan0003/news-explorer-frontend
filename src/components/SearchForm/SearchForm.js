@@ -12,8 +12,7 @@ function SearchForm(props) {
     setRequestIsEmpty(false);
   }
 
-  async function handleSearchClick(evt) {
-    evt.preventDefault();
+  async function handleSearchClick() {
     try {
       props.setIsLoading(true);
       if (request === '') {
@@ -32,6 +31,11 @@ function SearchForm(props) {
     }
   }
 
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    handleSearchClick();
+  }
+
   return (
     <div className="search">
       <div className="search__container">
@@ -39,11 +43,11 @@ function SearchForm(props) {
         <h4 className="search__subtitle">
           Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.
         </h4>
-        <div className="search__form">
+        <form className="search__form" onSubmit={handleSubmit} noValidate>
           <input className="search__field" type="search" placeholder="Введите тему новости" onChange={handleChangeRequest} required></input>
-          <button className="search__button" onClick={handleSearchClick}>Искать</button>
+          <button className="search__button" type="submit">Искать</button>
           <span className={isRequestEmpty ? 'search__input-error search__input-error_visible' : 'search__input-error'}>{ERROR_MESSAGES.EMPTY_REQUEST}</span>
-          </div>
+        </form>
       </div>
     </div>
   );

@@ -47,6 +47,7 @@ function useForm(
   const [dirty, setDirty] = useState(getPropValues(state));
   const [disable, setDisable] = useState(true);
   const [isDirty, setIsDirty] = useState(false);
+  const [isShown, setIsShown] = useState(false);
 
   const validateFormFields = useCallback(
     (name, value) => {
@@ -73,6 +74,7 @@ function useForm(
   const handleOnChange = useCallback(
     (evt) => {
       setIsDirty(true);
+      setIsShown(true);
 
       const { name, value } = evt.target;
 
@@ -120,15 +122,21 @@ function useForm(
     [validateErrorState, submitFormCallback, values],
   );
 
+  const handleOnClose = () => {
+    setDisable(true);
+    setIsShown(false);
+  };
+
   return {
+    handleOnClose,
     handleOnChange,
     handleOnSubmit,
-    values,
     errors,
     disable,
     setValues,
     setErrors,
     dirty,
+    isShown,
   };
 }
 
