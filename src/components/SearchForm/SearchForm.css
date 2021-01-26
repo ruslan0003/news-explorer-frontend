@@ -47,6 +47,7 @@
   flex-direction: row;
   justify-content: stretch;
   margin-top: 64px;
+  position: relative;
 }
 
 .search__field {
@@ -110,6 +111,25 @@
 
 .search__button:active {
   background: #2A65CC;
+}
+
+.search__input-error {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ff0000;
+  visibility: hidden;
+  position: absolute;
+  top: 40px;
+  left: 25px;
+}
+
+.search__input-error_visible {
+  visibility: visible;
 }
 
 @media screen and (max-width: 768px) {

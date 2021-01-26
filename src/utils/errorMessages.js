@@ -1,9 +1,9 @@
 const ERROR_MESSAGES = {
-  BLANK_EMAIL: 'Пожалуйста, введите email',
   WRONG_EMAIL: 'Неправильный формат email',
-  BLANK_PASSWORD: 'Пожалуйста, введите пароль',
-  BLANK_NAME: 'Пожалуйста, укажите ваше имя',
+  BLANK_FIELD: 'Пожалуйста, заполните данное поле',
   USER_EXISTS: 'Такой пользователь уже есть',
+  EMPTY_REQUEST: 'Нужно ввести ключевое слово',
+  ERROR_CATCH: 'Что-то пошло не так. Попробуйте ещё раз',
 };
 
 export default ERROR_MESSAGES;

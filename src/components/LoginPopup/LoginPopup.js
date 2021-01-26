@@ -1,67 +1,88 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import ERROR_MESSAGES from '../../utils/errorMessages';
+import { authorize } from '../../utils/MainApi';
+import useForm from '../../utils/useForm';
 
 function LoginPopup(props) {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [emailError, setEmailError] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState('');
-  const [isDisabled, setDisabled] = React.useState(true);
-  const firstRender = React.useRef(true);
+  const [message, setMessage] = React.useState('');
 
-  // временное решение для валидации форм
-  // с целью демонстрации стилизованных сообщений об ошибках
-  // и состояний кнопки submit
-
-  const formValidation = () => {
-    setEmailError('');
-    setPasswordError('');
-    let boolean = false;
-    if (!email) {
-      setEmailError(ERROR_MESSAGES.BLANK_EMAIL);
-      boolean = true;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError(ERROR_MESSAGES.WRONG_EMAIL);
-      boolean = true;
-    } if (!password) {
-      setPasswordError(ERROR_MESSAGES.BLANK_PASSWORD);
-      boolean = true;
-    } return boolean;
+  const stateSchema = {
+    email: { value: '', error: '' },
+    password: { value: '', error: '' },
   };
 
-  React.useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    setDisabled(formValidation());
-  }, [password, email]);
+  const stateValidatorSchema = {
+    email: {
+      required: true,
+      validator: {
+        func: (value) => /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value),
+        error: ERROR_MESSAGES.WRONG_EMAIL,
+      },
+    },
+    password: {
+      required: true,
+    },
+  };
 
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
+  function formReset() {
+    document.getElementById('login-popup').reset();
+    document.getElementById('login-submit').disabled = true;
   }
 
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value);
+  function onSubmitForm({ email, password }) {
+    authorize(email, password)
+      .then((res) => {
+        if (!res || res.status === 401 || res.status === 400) {
+          setMessage('Неверно указан email либо пароль');
+          props.setLoggedIn(false);
+          props.removeToken();
+        } else {
+          const currentUserData = { email, password };
+          props.onSubmit(currentUserData, res.token);
+          setMessage('');
+          props.setLoggedIn(true);
+          formReset();
+        }
+      })
+      .catch((err) => {
+        setMessage(ERROR_MESSAGES.ERROR_CATCH);
+        console.log(err);
+      });
   }
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    props.onSubmit();
+  const {
+    errors,
+    dirty,
+    handleOnChange,
+    handleOnClose,
+    isShown,
+    handleOnSubmit,
+    disable,
+  } = useForm(stateSchema, stateValidatorSchema, onSubmitForm);
+
+  function handleClose() {
+    handleOnClose();
+    props.onClose();
+    setMessage('');
+    formReset();
   }
 
   return (
-    <PopupWithForm name="login-popup" title="Вход" onClose={props.onClose} isOpen={props.isOpen} onSubmit={handleSubmit} link="Зарегистрироваться" onRegisterClick={props.onRegisterClick}>
-      <label className="popup__label" htmlFor="login-email">Email</label>
-      <input className="popup__input" id="login-email" name="login-email" type="email" value={email || ''} placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleChangeEmail} required />
-      <span className={formValidation ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="name-login-error">{emailError}</span>
-      <label className="popup__label" htmlFor="login-password">Пароль</label>
-      <input className="popup__input" id="login-password" name="login-password" type="password" value={password || ''} placeholder="Введите пароль" onChange={handleChangePassword} required />
-      <span className={formValidation ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="password-login-error">{passwordError}</span>
-      <button className='popup__submit-button' type="submit" disabled={isDisabled}>Войти</button>
+    <PopupWithForm name="login-popup" title="Вход" onClose={handleClose} isOpen={props.isOpen} onSubmit={handleOnSubmit} link="Зарегистрироваться" onRegisterClick={props.onRegisterClick}>
+      <label className="popup__label" htmlFor="email">Email</label>
+      <input className="popup__input" id="email-login" name="email" type="email" placeholder="Введите почту" minLength="2" maxLength="40" onChange={handleOnChange} required />
+      {errors.email && dirty.email && (
+        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="email-login-error">{errors.email}</span>
+      )}
+      <label className="popup__label" htmlFor="password">Пароль</label>
+      <input className="popup__input" id="password-login" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} required />
+      {errors.password && dirty.password && (
+        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="password-login-error">{errors.password}</span>
+      )}
+      <span className={'popup__input-error popup__input-error_visible popup__input-error_center'}>{message}</span>
+      <button className='popup__submit-button' id="login-submit" type="submit" disabled={disable}>Войти</button>
     </PopupWithForm>
   );
 }
@@ -71,6 +92,8 @@ LoginPopup.propTypes = {
   onClose: PropTypes.func,
   onRegisterClick: PropTypes.func,
   onSubmit: PropTypes.func,
+  setLoggedIn: PropTypes.func,
+  removeToken: PropTypes.func,
 };
 
 export default LoginPopup;

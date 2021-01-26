@@ -6,11 +6,20 @@
 }
 
 .saved-card__image {
-  background-image: url('../../images/card-sample.jpg');
+  width: 100%;
   max-width: 400px;
   height: 272px;
-  background-size: cover;
-  background-position: center;
+  object-fit: fill;
+  object-position: top;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 15px 15px 0px 0px;
+}
+
+.saved-card__image-block {
+  max-width: 400px;
+  height: 272px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -18,6 +27,7 @@
   border-radius: 15px 15px 0 0;
   padding: 24px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .saved-card__delete-button {
@@ -41,6 +51,7 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-start;
+  position: relative;
 }
 
 .saved-card__offer-delete {
@@ -63,6 +74,7 @@
   box-shadow: 0px 10px 22px rgba(59, 74, 116, 0.1);
   border-radius: 10px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .saved-card__keyword-text {
@@ -166,9 +178,13 @@
     max-width: 420px;
   }
 
-  .saved-card__image {
+  .saved-card__image-block {
     max-width: 420px;
     padding: 8px;
+  }
+
+  .saved-card__image {
+    object-fit: cover;
   }
 
   .saved-card__title {

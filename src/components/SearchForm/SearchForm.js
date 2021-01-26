@@ -1,21 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import findArticles from '../../utils/NewsApi';
+import ERROR_MESSAGES from '../../utils/errorMessages';
 
 function SearchForm(props) {
   const [request, setRequest] = React.useState('');
-
-  function handleSearchClick() {
-    if (request === 'природа') {
-      props.onSearchClick();
-      props.setSearchFound();
-    } else {
-      props.onSearchClick();
-      props.setSearchNotFound();
-    }
-  }
+  const [isError, setError] = React.useState(false);
+  const [isRequestEmpty, setRequestIsEmpty] = React.useState(false);
 
   function handleChangeRequest(evt) {
     setRequest(evt.target.value);
+    setRequestIsEmpty(false);
+  }
+
+  async function handleSearchClick() {
+    try {
+      props.setIsLoading(true);
+      if (request === '') {
+        setRequestIsEmpty(true);
+        props.setIsLoading(false);
+      } else {
+        setRequestIsEmpty(false);
+        const foundArticles = await findArticles(request);
+        if (foundArticles !== undefined) {
+          props.setIsLoading(false);
+          props.onSearchClick(foundArticles, request);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    }
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    handleSearchClick();
   }
 
   return (
@@ -25,20 +45,25 @@ function SearchForm(props) {
         <h4 className="search__subtitle">
           Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.
         </h4>
-        <div className="search__form">
+        <form className="search__form" onSubmit={handleSubmit} noValidate>
           <input className="search__field" type="search" placeholder="Введите тему новости" onChange={handleChangeRequest} required></input>
-          <button className="search__button" onClick={handleSearchClick}>Искать</button></div>
+          <button className="search__button" type="submit">Искать</button>
+          {isRequestEmpty && (<span className='search__input-error search__input-error_visible'>
+            {ERROR_MESSAGES.EMPTY_REQUEST}
+            </span>)}
+            {isError && (<span className='search__input-error search__input-error_visible'>
+            {ERROR_MESSAGES.ERROR_CATCH}
+            </span>)}
+        </form>
       </div>
-
     </div>
   );
 }
 
 SearchForm.propTypes = {
   onSearchClick: PropTypes.func,
-  setSearchFound: PropTypes.func,
-  setSearchNotFound: PropTypes.func,
   setSearchClicked: PropTypes.func,
+  setIsLoading: PropTypes.func,
 };
 
 export default SearchForm;

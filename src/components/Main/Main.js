@@ -6,7 +6,12 @@ function Main(props) {
   return (
     <div className="main">
       <NewsCardList isLoggedIn={props.isLoggedIn} cards={props.cards} isFound={props.isFound}
-      isSearchClicked={props.isSearchClicked} />
+      isSearchClicked={props.isSearchClicked} showMoreCards={props.showMoreCards}
+      saveCard={props.saveCard} isShowMoreDisabled={props.isShowMoreDisabled}
+      visibleCards={props.visibleCards} savedCards={props.savedCards}
+      onCardDelete={props.onCardDelete} dateFormat={props.dateFormat}
+      openRegister={props.openRegister}
+      />
       <div className="author">
         <div className="author__photo"></div>
         <div className="author__about">
@@ -31,6 +36,14 @@ Main.propTypes = {
   cards: PropTypes.array,
   isFound: PropTypes.bool,
   isSearchClicked: PropTypes.bool,
+  showMoreCards: PropTypes.func,
+  saveCard: PropTypes.func,
+  isShowMoreDisabled: PropTypes.bool,
+  visibleCards: PropTypes.number,
+  savedCards: PropTypes.array,
+  onCardDelete: PropTypes.func,
+  dateFormat: PropTypes.func,
+  openRegister: PropTypes.func,
 };
 
 export default Main;
