@@ -21,3 +21,18 @@ export const newsApiConfig = {
     'Content-Type': 'application/json',
   },
 };
+
+function setDateWeekBack() {
+  const dateWeekBack = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  return dateWeekBack.toISOString().split('T')[0];
+}
+
+function setCurrentDate() {
+  const today = new Date();
+  return today.toISOString().split('T')[0];
+}
+
+export const dateFrom = setDateWeekBack();
+export const dateTo = setCurrentDate();
+
+export const NUMBER_OF_CARDS_SHOWN = 3;

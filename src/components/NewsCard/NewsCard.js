@@ -89,7 +89,8 @@ function NewsCard(props) {
           <div className={hovered ? 'card__offer-login card__offer-login_visible' : 'card__offer-login'}>
             <p className="card__offer-login-message">Войдите, чтобы сохранять статьи</p>
           </div>
-          <button className="card__bookmark-button" onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+          <button className="card__bookmark-button" onMouseEnter={toggleHover} onMouseLeave={toggleHover}
+          onClick={props.openRegister}>
             <img className="card__bookmark-icon" src={hovered ? `${bookmarkBlack}` : `${bookmark}`} alt="Кнопка добавить в избранное"></img>
           </button>
         </div>
@@ -114,6 +115,7 @@ NewsCard.propTypes = {
   onCardDelete: PropTypes.func,
   cards: PropTypes.array,
   dateFormat: PropTypes.func,
+  openRegister: PropTypes.func,
 };
 
 export default NewsCard;

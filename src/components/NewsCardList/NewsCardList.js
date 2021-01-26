@@ -11,7 +11,7 @@ function NewsCardList(props) {
         {props.cards.slice(0, props.visibleCards).map((card, i) => <NewsCard key={i}
           isLoggedIn={props.isLoggedIn} savedCards={props.savedCards} cards={props.cards}
           card={card} saveCard={props.saveCard} onCardDelete={props.onCardDelete}
-          dateFormat={props.dateFormat} />)}
+          dateFormat={props.dateFormat} openRegister={props.openRegister}/>)}
       </div>
       { props.visibleCards < props.cards.length && <div className='results__button-more-container results__button-more-container_visible'>
         <button className="results__button-more" onClick={props.showMoreCards}>Показать ещё</button>
@@ -36,6 +36,7 @@ NewsCardList.propTypes = {
   savedCards: PropTypes.array,
   onCardDelete: PropTypes.func,
   dateFormat: PropTypes.func,
+  openRegister: PropTypes.func,
 };
 
 export default NewsCardList;

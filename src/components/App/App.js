@@ -15,6 +15,7 @@ import Preloader from '../Preloader/Preloader';
 import UserContext from '../../contexts/UserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Page404 from '../Page404/Page404';
+import { NUMBER_OF_CARDS_SHOWN } from '../../utils/config';
 import {
   getContent,
   getSavedNews,
@@ -35,8 +36,8 @@ function App() {
   const [isSearchClicked, setSearchClicked] = React.useState(false);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({});
-  const [visibleCards, setVisibleCards] = React.useState(3);
-  const [visibleSavedCards, setVisibleSavedCards] = React.useState(3);
+  const [visibleCards, setVisibleCards] = React.useState(NUMBER_OF_CARDS_SHOWN);
+  const [visibleSavedCards, setVisibleSavedCards] = React.useState(NUMBER_OF_CARDS_SHOWN);
   const [isShowMoreDisabled, setShowMoreDisabled] = React.useState(undefined);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -297,7 +298,8 @@ function App() {
               isSearchClicked={isSearchClicked} saveCard={handleSaveCard}
               showMoreCards={showMoreCards} savedCards={savedCards}
               isShowMoreDisabled={isShowMoreDisabled} visibleCards={visibleCards}
-              onCardDelete={handleCardDelete} dateFormat={changeDateFormat} />
+              onCardDelete={handleCardDelete} dateFormat={changeDateFormat}
+              openRegister={handleRegisterPopupOpen} />
           </Route>
           <ProtectedRoute path="/saved-news" exact loggedIn={loggedIn}>
             <SavedNewsHeader onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
