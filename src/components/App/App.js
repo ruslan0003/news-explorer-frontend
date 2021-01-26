@@ -67,6 +67,7 @@ function App() {
       keyword,
     }));
     setCards(newsCards);
+    localStorage.setItem('object', JSON.stringify(newsCards));
     if (newsCards.length === 0) {
       setSearchNotFound();
     } else {
@@ -119,7 +120,35 @@ function App() {
     } return false;
   }
 
+  function renderLocalCards() {
+    const localCards = JSON.parse(localStorage.getItem('object'));
+    if (localCards) {
+      const storedCards = localCards.map((item) => ({
+        image: item.image,
+        link: item.link,
+        date: item.date,
+        title: item.title,
+        text: item.text,
+        source: item.source,
+        keyword: item.keyword,
+      }));
+      setCards(storedCards);
+      setSearchClicked(true);
+      setVisibleCards(3);
+      setShowMoreDisabled(false);
+      setFound(true);
+    }
+  }
+
+  function clearLocalCards() {
+    localStorage.removeItem('object');
+    setSearchClicked(false);
+    setFound(false);
+    setCards([]);
+  }
+
   React.useEffect(() => {
+    renderLocalCards();
     const tokenStatus = tokenCheck();
     if (tokenStatus) {
       const jwt = getToken();
@@ -173,6 +202,7 @@ function App() {
       tokenCheck();
       renderSavedCards(userToken);
       closeAllPopups();
+      clearLocalCards();
     }
   }
 
@@ -180,6 +210,7 @@ function App() {
     setLoggedIn(false);
     history.push('/');
     removeToken();
+    clearLocalCards();
   }
 
   function toggleMenuState() {
@@ -252,7 +283,7 @@ function App() {
       <div className={isMenuOpen ? 'app__dark-overlay' : 'app__dark-overlay app__dark-overlay_hidden'}></div>
       <UserContext.Provider value={userData}>
         <Switch>
-        <Route path='/404' exact>
+          <Route path='/404' exact>
             <Page404 />
           </Route>
           <Route path="/" exact>
@@ -268,7 +299,6 @@ function App() {
               isShowMoreDisabled={isShowMoreDisabled} visibleCards={visibleCards}
               onCardDelete={handleCardDelete} dateFormat={changeDateFormat} />
           </Route>
-          <Redirect to='/404' />
           <ProtectedRoute path="/saved-news" exact loggedIn={loggedIn}>
             <SavedNewsHeader onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
               isMenuOpen={isMenuOpen} userName={userData.name} />
@@ -277,11 +307,12 @@ function App() {
               onCardDelete={handleCardDelete} wordForm={declenseByCases}
               dateFormat={changeDateFormat} />
           </ProtectedRoute>
+          <Redirect to='/404' />
         </Switch>
         <Footer />
         <LoginPopup isOpen={isLoginPopupOpen} onClose={closeAllPopups} setLoggedIn={setLoggedIn}
           onRegisterClick={handleRegisterPopupOpen} onSubmit={handleLogin}
-          removeToken={removeToken}/>
+          removeToken={removeToken} />
         <RegisterPopup isOpen={isRegisterPopupOpen} onClose={closeAllPopups}
           onLoginClick={handleLoginPopupOpen} onSubmit={handleRegister} />
         <InfoPopup isOpen={isInfoPopupOpen} onClose={closeAllPopups}
