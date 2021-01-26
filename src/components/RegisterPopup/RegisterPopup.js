@@ -53,7 +53,10 @@ function RegisterPopup(props) {
         props.onSubmit(false);
         setMessage(ERROR_MESSAGES.USER_EXISTS);
       }
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+      setMessage(ERROR_MESSAGES.ERROR_CATCH);
+      console.log(err);
+    });
   }
 
   const {
@@ -79,17 +82,17 @@ function RegisterPopup(props) {
       <label className="popup__label" htmlFor="email">Email</label>
       <input className="popup__input" id="email" name="email" type="email" placeholder="Введите почту" onChange={handleOnChange} required />
       {errors.email && dirty.email && (
-        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="email-register-error">{errors.email}</span>
+        <span className={isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="email-register-error">{errors.email}</span>
       )}
       <label className="popup__label" htmlFor="password-input" minLength="3">Пароль</label>
       <input className="popup__input" id="password" name="password" type="password" placeholder="Введите пароль" onChange={handleOnChange} required />
       {errors.password && dirty.password && (
-        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="password-register-error">{errors.password}</span>
+        <span className={isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="password-register-error">{errors.password}</span>
       )}
       <label className="popup__label" htmlFor="name">Имя</label>
       <input className="popup__input" id="name" name="name" placeholder="Введите имя" minLength="2" maxLength="40" onChange={handleOnChange} required />
       {errors.name && dirty.name && (
-        <span className={ isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error' } id="name-register-error">{errors.name}</span>
+        <span className={isShown ? 'popup__input-error popup__input-error_visible' : 'popup__input-error'} id="name-register-error">{errors.name}</span>
       )}
       <span className={'popup__input-error popup__input-error_visible popup__input-error_center'}>{message}</span>
       <button className='popup__submit-button popup__submit-button_register' id="register-submit" type="submit" disabled={disable} onSubmit={props.onSubmit}>Зарегистрироваться</button>

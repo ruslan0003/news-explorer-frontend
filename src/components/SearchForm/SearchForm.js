@@ -5,6 +5,7 @@ import ERROR_MESSAGES from '../../utils/errorMessages';
 
 function SearchForm(props) {
   const [request, setRequest] = React.useState('');
+  const [isError, setError] = React.useState(false);
   const [isRequestEmpty, setRequestIsEmpty] = React.useState(false);
 
   function handleChangeRequest(evt) {
@@ -28,6 +29,7 @@ function SearchForm(props) {
       }
     } catch (err) {
       console.log(err);
+      setError(true);
     }
   }
 
@@ -46,7 +48,12 @@ function SearchForm(props) {
         <form className="search__form" onSubmit={handleSubmit} noValidate>
           <input className="search__field" type="search" placeholder="Введите тему новости" onChange={handleChangeRequest} required></input>
           <button className="search__button" type="submit">Искать</button>
-          <span className={isRequestEmpty ? 'search__input-error search__input-error_visible' : 'search__input-error'}>{ERROR_MESSAGES.EMPTY_REQUEST}</span>
+          {isRequestEmpty && (<span className='search__input-error search__input-error_visible'>
+            {ERROR_MESSAGES.EMPTY_REQUEST}
+            </span>)}
+            {isError && (<span className='search__input-error search__input-error_visible'>
+            {ERROR_MESSAGES.ERROR_CATCH}
+            </span>)}
         </form>
       </div>
     </div>

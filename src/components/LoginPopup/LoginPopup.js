@@ -46,7 +46,10 @@ function LoginPopup(props) {
           formReset();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(ERROR_MESSAGES.ERROR_CATCH);
+        console.log(err);
+      });
   }
 
   const {

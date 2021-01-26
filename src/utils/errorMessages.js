@@ -3,6 +3,7 @@ const ERROR_MESSAGES = {
   BLANK_FIELD: 'Пожалуйста, заполните данное поле',
   USER_EXISTS: 'Такой пользователь уже есть',
   EMPTY_REQUEST: 'Нужно ввести ключевое слово',
+  ERROR_CATCH: 'Что-то пошло не так. Попробуйте ещё раз',
 };
 
 export default ERROR_MESSAGES;
