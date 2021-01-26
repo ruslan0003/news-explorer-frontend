@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -14,6 +14,7 @@ import { getToken, removeToken, setToken } from '../../utils/token';
 import Preloader from '../Preloader/Preloader';
 import UserContext from '../../contexts/UserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import Page404 from '../Page404/Page404';
 import {
   getContent,
   getSavedNews,
@@ -251,6 +252,9 @@ function App() {
       <div className={isMenuOpen ? 'app__dark-overlay' : 'app__dark-overlay app__dark-overlay_hidden'}></div>
       <UserContext.Provider value={userData}>
         <Switch>
+        <Route path='/404' exact>
+            <Page404 />
+          </Route>
           <Route path="/" exact>
             <Header onLoginClick={handleLoginPopupOpen} isLoggedIn={loggedIn}
               onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
@@ -264,6 +268,7 @@ function App() {
               isShowMoreDisabled={isShowMoreDisabled} visibleCards={visibleCards}
               onCardDelete={handleCardDelete} dateFormat={changeDateFormat} />
           </Route>
+          <Redirect to='/404' />
           <ProtectedRoute path="/saved-news" exact loggedIn={loggedIn}>
             <SavedNewsHeader onLogoutClick={handleLogout} onMenuOpenClick={toggleMenuState}
               isMenuOpen={isMenuOpen} userName={userData.name} />
